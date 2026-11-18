@@ -5,6 +5,7 @@ build/
 
 .env
 .env.local
+start.sh
 
 *.log
 npm-debug.log*
