@@ -1,0 +1,17 @@
+FROM node:16.0.0-alpine3.12 AS build
+WORKDIR /app
+COPY ./code/example-frontend .
+
+#ENV REACT_APP_BACKEND_URL="/api"
+RUN npm install && npm run build
+
+FROM nginx:alpine AS prod
+WORKDIR /build
+COPY --from=build /app/build .
+COPY ./3_89/nginx.conf  /etc/nginx/nginx.conf
+EXPOSE 80
+
+#RUN apk add bash
+USER nginx 
+
+CMD [ "nginx", "-g", "daemon off;" ]
